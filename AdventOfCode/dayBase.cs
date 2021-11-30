@@ -1,14 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
 
 namespace AdventOfCode
 {
     
     public abstract class dayBase {
 
-        public abstract long partOne(List<string> input);
-        public abstract long partTwo(List<string> input);
+        public int day {get; set;}
+        public string input {get; set;}
+
+        public List<string> items = new List<string>();
+
+        public abstract long partOne();
+        public abstract long partTwo();
 
         public virtual void getInput(int day) {
 
@@ -16,7 +23,7 @@ namespace AdventOfCode
 
             string domain = @".adventofcode.com";
             string url = @"https://adventofcode.com/2021/day/" + day + @"/input";
-            string autcVal = System.IO.File.ReadAllText(@"cookie.autc");
+            string autcVal = System.IO.File.ReadAllText(@"authCookie.autc");
 
             try {
                 HttpWebRequest download = (HttpWebRequest) WebRequest.Create(url);
@@ -40,17 +47,17 @@ namespace AdventOfCode
 
         }
 
-        public virtual void dayRun(int day, string input) {
+        public virtual void dayRun() {
 
-            if (!System.IO.Directory.Exists("day" + day)) {
+            if (!System.IO.Directory.Exists("day" + this.day)) {
 
-                System.IO.Directory.CreateDirectory("day" + day);
+                System.IO.Directory.CreateDirectory("day" + this.day);
 
             }
 
             if (!System.IO.File.Exists(input)) {
 
-                getInput(day);
+                getInput(this.day);
 
             }
             
@@ -59,11 +66,11 @@ namespace AdventOfCode
             resultWriter write = new resultWriter();
 
             try {
-                string text = System.IO.File.ReadAllText(input);
-                List<string> items = read.gatherLines(text);
+                string text = System.IO.File.ReadAllText(this.input);
+                this.items = read.gatherLines(text);
 
-                long result = partOne(items);
-                long resultPartTwo = partTwo(items);
+                long result = partOne();
+                long resultPartTwo = partTwo();
 
                 write.partResults.Add("part one", result.ToString());
                 write.partResults.Add("Part two", resultPartTwo.ToString());
