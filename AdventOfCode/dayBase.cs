@@ -55,7 +55,7 @@ namespace AdventOfCode
 
             }
 
-            if (!System.IO.File.Exists(input)) {
+            if (!System.IO.File.Exists(this.input)) {
 
                 getInput(this.day);
 

@@ -8,8 +8,17 @@ namespace AdventOfCode {
         [Benchmark]
         public override long partOne()
         {
-
-            throw new NotImplementedException();
+            var result = 0;
+            string currentItem = this.input.First();
+            foreach (string item in this.input)
+            {
+                if (Int64.TryParse(currentItem) < Int64.TryParse(item))
+                {
+                    ++result;
+                }
+                currentItem = item;
+            }   
+            return result;
         }
 
         [Benchmark]
