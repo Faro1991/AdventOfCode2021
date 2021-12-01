@@ -19,7 +19,7 @@ namespace AdventOfCode
 
         public virtual void getInput(int day) {
 
-            string filePath = "day" + day + @"/inputDay" + day + ".txt";
+            string filePath = System.IO.Path.Join("day" + day, @"/inputDay" + day + ".txt");
 
             string domain = @".adventofcode.com";
             string url = @"https://adventofcode.com/2021/day/" + day + @"/input";
