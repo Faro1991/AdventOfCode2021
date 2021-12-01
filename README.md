@@ -4,7 +4,7 @@ My take on AoC 2021
 I _could_ add lots of fancy pictures and what have you here. I won't.
 
 
-## Benchmark results per day**
+## Benchmark results per day
 ### Day 1
 |  Method |     Mean |   Error |  StdDev |
 |-------- |---------:|--------:|--------:|
