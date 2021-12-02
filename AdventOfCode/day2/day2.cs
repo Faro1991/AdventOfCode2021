@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace AdventOfCode
 {
-    class day2 : dayBase
+    public class day2 : dayBase
     {
         private int[] _pos = {0, 0};
         private int[] _posAndAim = {0, 0, 0};
