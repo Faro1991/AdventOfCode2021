@@ -1,12 +1,14 @@
 using System;
 using BenchmarkDotNet.Attributes;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AdventOfCode
 {
     class day2 : dayBase
     {
-        private int[,] _pos = new int[1, 1] {0, 0};
+        private int[] _pos = {0, 0};
+        private int[] _posAndAim = {0, 0, 0};
 
         [Benchmark]
         public override long partOne()
@@ -46,7 +48,34 @@ namespace AdventOfCode
         [Benchmark]
         public override long partTwo()
         {
-            throw new NotImplementedException();
+            var result = 0;
+
+            foreach (string item in this.items)
+            {
+                if (item != "")
+                {
+                    string direction = item.Split(" ")[0].ToLower();
+                    int amount = Int32.Parse(item.Split(" ")[1]);
+                    switch (direction)
+                    {
+                        case "forward":
+                            this._posAndAim[0] += amount;
+                            this._posAndAim[1] += amount * this._posAndAim[2];
+                            break;
+                        case "up":
+                            this._posAndAim[2] -= amount;
+                            break;
+                        case "down":
+                            this._posAndAim[2] += amount;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            result = this._posAndAim[0] * this._posAndAim[1];
+
+            return result;
         }
     }
 }
