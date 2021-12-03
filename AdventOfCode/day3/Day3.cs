@@ -33,6 +33,7 @@ namespace AdventOfCode
             var epsilonRateString = "";
             long gammaRate = 0;
             long epsilonRate = 0;
+            int iter = 0;
             int end = 0;
             if (this.Items.Count > 0)
             {
@@ -40,11 +41,12 @@ namespace AdventOfCode
                 end = longest.Length;
             }
 
-            for (int i = 0; i < end; ++i)
+            do
             {
-                gammaRateString += FindMostCommonBit(this.Items, i).ToString();
-                epsilonRateString += FindLeastCommonBit(this.Items, i).ToString();
-            }
+                gammaRateString += FindMostCommonBit(this.Items, iter).ToString();
+                epsilonRateString += FindLeastCommonBit(this.Items, iter).ToString();
+                ++iter;
+            }while (iter < end);
             gammaRate = Convert.ToInt64(gammaRateString, 2);
             epsilonRate = Convert.ToInt64(epsilonRateString, 2);
 
@@ -63,34 +65,39 @@ namespace AdventOfCode
             long co2Rating = 0;
             long mostCommonbit = 0;
             long leastCommonBit = 0;
+            int iter = 0;
             int end = 0;
-
             if (this.Items.Count > 0)
             {
                 string longest = this.Items.Aggregate((longest, next) => next.Length > longest.Length ? next : longest);
                 end = longest.Length;
             }
-            
-            int iter = 0;
+
             do
             {
-                mostCommonbit = FindMostCommonBit(tempListOxygen, iter);
-                leastCommonBit = FindLeastCommonBit(tempListCo2, iter);
-                if (tempListOxygen.Count != 1)
+                if (tempListOxygen.Count > 1)
                 {
+                    mostCommonbit = FindMostCommonBit(tempListOxygen, iter);
                     tempListOxygen = tempListOxygen.Where(x => x[iter].ToString() == mostCommonbit.ToString()).ToList();
                 }
-                if (tempListCo2.Count != 1)
+                if (tempListCo2.Count > 1)
                 {
+                    leastCommonBit = FindLeastCommonBit(tempListCo2, iter);
                     tempListCo2 = tempListCo2.Where(x => x[iter].ToString() == leastCommonBit.ToString()).ToList();
                 }
+                if (tempListCo2.Count == 1 && tempListOxygen.Count == 1)
+                {
+                    break;
+                }
                 ++iter;
-            }while (iter < end || (tempListOxygen.Count != 1 && tempListCo2.Count != 1));
+            }while (iter < end);
 
-            oxygenRating = Convert.ToInt64(tempListOxygen.First(), 2);
-            co2Rating = Convert.ToInt64(tempListCo2.First(), 2);
-            result = oxygenRating * co2Rating;
-
+            if (tempListCo2.Count == 1 && tempListOxygen.Count == 1)
+            {
+                oxygenRating = Convert.ToInt64(tempListOxygen.First(), 2);
+                co2Rating = Convert.ToInt64(tempListCo2.First(), 2);
+                result = oxygenRating * co2Rating;
+            }
             return result;
         }
     }
