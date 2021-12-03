@@ -5,18 +5,18 @@ using System.Linq;
 
 namespace AdventOfCode
 {
-    public class day2 : dayBase
+    public class Day2 : DayBase
     {
         private int[] _pos = {0, 0};
         private int[] _posAndAim = {0, 0, 0};
 
         [Benchmark]
-        public override long partOne()
+        public override long PartOne()
         {
             var result = 0;
-            int length = this.items.Where(x => x.Split(" ")[0].ToLower() == "forward").Select(x => Int32.Parse(x.Split(" ")[1])).Sum();
-            int down = this.items.Where(x => x.Split(" ")[0].ToLower() == "down").Select(x => Int32.Parse(x.Split(" ")[1])).Sum();
-            int up = this.items.Where(x => x.Split(" ")[0].ToLower() == "up").Select(x => Int32.Parse(x.Split(" ")[1])).Sum();
+            int length = this.Items.Where(x => x.Split(" ")[0].ToLower() == "forward").Select(x => Int32.Parse(x.Split(" ")[1])).Sum();
+            int down = this.Items.Where(x => x.Split(" ")[0].ToLower() == "down").Select(x => Int32.Parse(x.Split(" ")[1])).Sum();
+            int up = this.Items.Where(x => x.Split(" ")[0].ToLower() == "up").Select(x => Int32.Parse(x.Split(" ")[1])).Sum();
 
             result = length * Math.Abs(down - up);
 
@@ -46,11 +46,11 @@ namespace AdventOfCode
             return result;
         }
         [Benchmark]
-        public override long partTwo()
+        public override long PartTwo()
         {
             var result = 0;
 
-            foreach (string item in this.items)
+            foreach (string item in this.Items)
             {
                 if (item != "")
                 {

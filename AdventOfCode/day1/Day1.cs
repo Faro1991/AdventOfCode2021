@@ -3,14 +3,16 @@ using System.Linq;
 using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
 
-namespace AdventOfCode {
-    public class day1 : dayBase {
+namespace AdventOfCode
+{
+    public class Day1 : DayBase
+    {
 
         [Benchmark]
-        public override long partOne()
+        public override long PartOne()
         {
             var result = 0;
-            List<long> vals = this.items.ConvertAll<long>(x => x!= "" ? Int64.Parse(x) : 0);
+            List<long> vals = this.Items.ConvertAll<long>(x => x!= "" ? Int64.Parse(x) : 0);
             long currentItem = vals.Take(1).Sum();
             foreach (long item in vals)
             {
@@ -24,11 +26,11 @@ namespace AdventOfCode {
         }
 
         [Benchmark]
-        public override long partTwo()
+        public override long PartTwo()
         {
             var result = 0;
             
-            List<long> vals = this.items.ConvertAll<long>(x => x!= "" ? Int64.Parse(x) : 0);
+            List<long> vals = this.Items.ConvertAll<long>(x => x!= "" ? Int64.Parse(x) : 0);
 
             long currentSet = vals.Take(3).Sum();
 
