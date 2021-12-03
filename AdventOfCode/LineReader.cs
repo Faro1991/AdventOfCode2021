@@ -9,7 +9,7 @@ namespace AdventOfCode {
 
             List<string> tempList = new List<string>(lines.TrimEnd('\r').Split("\n"));
 
-            List<string> result = tempList.Where(x => !string.IsNullOrWhiteSpace(x)).ToList<string>();
+            List<string> result = tempList.Where(x => !string.IsNullOrEmpty(x)).ToList();
 
             return result;
 
