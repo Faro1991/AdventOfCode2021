@@ -33,8 +33,13 @@ namespace AdventOfCode
             var epsilonRateString = "";
             long gammaRate = 0;
             long epsilonRate = 0;
-            string longest = this.Items.Aggregate((longest, next) => next.Length > longest.Length ? next : longest);
-            int end = longest.Length;
+            int end = 0;
+            if (this.Items.Count > 0)
+            {
+                string longest = this.Items.Aggregate((longest, next) => next.Length > longest.Length ? next : longest);
+                end = longest.Length;
+            }
+
             for (int i = 0; i < end; ++i)
             {
                 gammaRateString += FindMostCommonBit(this.Items, i).ToString();
@@ -58,9 +63,14 @@ namespace AdventOfCode
             long co2Rating = 0;
             long mostCommonbit = 0;
             long leastCommonBit = 0;
+            int end = 0;
 
-            string longest = this.Items.Aggregate((longest, next) => next.Length > longest.Length ? next : longest);
-            int end = longest.Length;
+            if (this.Items.Count > 0)
+            {
+                string longest = this.Items.Aggregate((longest, next) => next.Length > longest.Length ? next : longest);
+                end = longest.Length;
+            }
+            
             int iter = 0;
             do
             {
