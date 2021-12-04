@@ -12,9 +12,12 @@ namespace AdventOfCode
 
         private void DrawLots()
         {
-            List<string> result = this.Items.First().Split(",").ToList();
-            this.Items.Remove(this.Items.First());
-            this._lots = result;
+            if (this.Items.Count > 0)
+            {
+                List<string> result = this.Items.First().Split(",").ToList();
+                this.Items.Remove(this.Items.First());
+                this._lots = result;
+            }
         }
         [Benchmark]
         public override long PartOne()
@@ -43,6 +46,27 @@ namespace AdventOfCode
         public override long PartTwo()
         {
             long result = 0;
+            long lastLength = 0;
+
+            Board board = new Board();
+            board.EnterFields(this.Items);
+            
+            foreach (string lot in this._lots)
+            {
+                long lotVal = Convert.ToInt64(lot);
+                board.MarkLot(lotVal);
+                long boardTest = board.CheckWin();
+                long length = board.AmountOfWinners();
+                if (boardTest != 0)
+                {
+                    if (lastLength == length)
+                    {
+                        break;
+                    }
+                    result = boardTest * lotVal;
+                    lastLength = length;
+                }
+            }
 
             return result;
         }

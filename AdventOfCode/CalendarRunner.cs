@@ -26,7 +26,7 @@ namespace AdventOfCode
 
             var day4 = new Day4();
             day4.Day = 4;
-            day4.Input = @"day4/inputDay4Short.txt";
+            day4.Input = @"day4/inputDay4.txt";
             day4.DayRun();
 
             var summary = BenchmarkRunner.Run<Day4>();
