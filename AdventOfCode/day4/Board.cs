@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace AocHelpers
 {
@@ -24,13 +25,13 @@ namespace AocHelpers
             public void EnterNumbers(string[] vals, int pos)
             {
                 _number[] tempArr = vals.Where(x => x != "").Select(x => StringToNumber(x)).ToArray<_number>();
-                content[pos] = tempArr;
+                this.content[pos] = tempArr;
             }
             public void MarkLots(long lot)
             {
-                for (int i = 0; i < content.Length; ++i)
+                for (int i = 0; i < this.content.Length; ++i)
                 {
-                    content[i] = content[i].Select(x => 
+                    this.content[i] = this.content[i].Select(x => 
                     {
                         if (x.value == lot)
                         {
@@ -42,32 +43,30 @@ namespace AocHelpers
             }
             private bool CheckRow(int pos)
             {
-                int count = 0;
-                for (int i = 0; i < content.Length; ++i)
+                for (int i = 0; i < this.content.Length; ++i)
                 {
-                    if (content[pos][i].marked)
+                    if (!this.content[pos][i].marked)
                     {
-                        ++count;
+                        return false;
                     }
                 }
-                return count == content.Length;
+                return true;
             }
             private bool CheckCol(int pos)
             {
-                int count = 0;
-                for (int i = 0; i < content.Length; ++i)
+                for (int i = 0; i < this.content.Length; ++i)
                 {
-                    if (content[i][pos].marked)
+                    if (!this.content[i][pos].marked)
                     {
-                        ++count;
+                        return false;
                     }
                 }
-                return count == content.Length;
+                return true;
             }
             public bool CheckResults(long lot)
             {
                 var win = false;
-                for (int i = 0; i < content.Length; ++i)
+                for (int i = 0; i < this.content.Length; ++i)
                 {
                     if (CheckRow(i) || CheckCol(i))
                     {
@@ -82,13 +81,7 @@ namespace AocHelpers
             }
             public long GetUnmarkedSum()
             {
-                long result = 0;
-
-                for (int i = 0; i < content.Length; ++i)
-                {
-                    result += content[i].Where(x => !x.marked).Select(x => x.value).Sum();
-                }
-
+                long result = content.SelectMany(x => x).Where(x => !x.marked).Select(x => x.value).Sum();
                 return result;
             }
             public void DeclareWinner()
@@ -97,7 +90,7 @@ namespace AocHelpers
             }
         }
         private List<_field> _fields = new List<_field>();
-        private HashSet<_field> _winners = new HashSet<_field>();
+        private Stack<_field> _winners = new Stack<_field>();
 
         //class methods
         private static _number StringToNumber(string input)
@@ -139,25 +132,22 @@ namespace AocHelpers
         {
             int count = 0;
             long result = 0;
-            foreach (_field candidate in _fields)
+            List<_field> checkList = this._fields.Select(x => x).ToList();
+            foreach (_field candidate in checkList)
             {
-                if (candidate.CheckResults(lot) && !this._fields[count].wonAlready)
+                if (!this._fields[count].wonAlready && candidate.CheckResults(lot))
                 {
                     result = this._fields[count].GetUnmarkedSum();
                     if (result != 0)
                     {
-                        if (!this._fields[count].wonAlready)
-                        {
-                            candidate.DeclareWinner();
-                            this._winners.Add(candidate);
-                        }
+                        candidate.DeclareWinner();
+                        this._winners.Push(candidate);
                         this._fields[count] = candidate;
-                        return result;
                     }
                 }
                 ++count;
             }
-            return 0;
+            return result;
         }
 
         public long WinnerCount()
@@ -172,16 +162,16 @@ namespace AocHelpers
             return result;
         }
 
-        public long[] ReturnFirstWinner()
-        {
-            long[] result = {this._winners.First().winningNum, this._winners.First().winningLot};
-            return result;
-        }
-
         public long[] ReturnLastWinner()
         {
-            List<_field> winnerList = this._winners.ToList();
-            long[] result = {winnerList.Last().winningNum, winnerList.Last().winningLot};
+            _field lastWinner = new _field();
+            if (this.WinnerCount() > 0)
+            {
+                lastWinner = this._winners.Pop();
+            }
+
+            
+            long[] result = {lastWinner.winningNum, lastWinner.winningLot};
             return result;
         }
     }

@@ -41,7 +41,7 @@ namespace AdventOfCode
                     break;
                 }
             }
-            long[] winningValues = board.ReturnFirstWinner();
+            long[] winningValues = board.ReturnLastWinner();
             boardVal = winningValues[0];
             winningLot = winningValues[1];
             result = boardVal * winningLot;
