@@ -7,7 +7,7 @@ namespace AocHelpers
 {
     public class Board
     {
-        private HashSet<_field> _winners = new HashSet<_field>();
+        //declare necessary structs & variables
         private struct _number
         {
             public bool marked;
@@ -17,7 +17,10 @@ namespace AocHelpers
         private struct _field
         {
             public _number[][] content;
-            public _field(bool yes = true) {content = new _number[5][];}
+            public bool wonAlready {get; set;}
+            public long winningLot {get; set;}
+            public long winningNum {get; set;}
+            public _field(bool yes = true) {content = new _number[5][]; winningLot = 0; winningNum = 0; wonAlready = false;}
             public void EnterNumbers(string[] vals, int pos)
             {
                 _number[] tempArr = vals.Where(x => x != "").Select(x => StringToNumber(x)).ToArray<_number>();
@@ -61,13 +64,15 @@ namespace AocHelpers
                 }
                 return count == content.Length;
             }
-            public bool CheckResults()
+            public bool CheckResults(long lot)
             {
                 var win = false;
                 for (int i = 0; i < content.Length; ++i)
                 {
                     if (CheckRow(i) || CheckCol(i))
                     {
+                        this.winningLot = lot;
+                        this.winningNum = this.GetUnmarkedSum();
                         win = true;
                         break;
                     }
@@ -86,8 +91,15 @@ namespace AocHelpers
 
                 return result;
             }
+            public void DeclareWinner()
+            {
+                this.wonAlready = true;
+            }
         }
         private List<_field> _fields = new List<_field>();
+        private HashSet<_field> _winners = new HashSet<_field>();
+
+        //class methods
         private static _number StringToNumber(string input)
         {
             if (input != "")
@@ -123,26 +135,53 @@ namespace AocHelpers
             }
         }
 
-        public long CheckWin()
+        public long CheckWin(long lot)
         {
+            int count = 0;
             long result = 0;
             foreach (_field candidate in _fields)
             {
-                if (candidate.CheckResults())
+                if (candidate.CheckResults(lot) && !this._fields[count].wonAlready)
                 {
-                    result = candidate.GetUnmarkedSum();
-                    if (this._winners.Add(candidate))
+                    result = this._fields[count].GetUnmarkedSum();
+                    if (result != 0)
                     {
+                        if (!this._fields[count].wonAlready)
+                        {
+                            candidate.DeclareWinner();
+                            this._winners.Add(candidate);
+                        }
+                        this._fields[count] = candidate;
                         return result;
                     }
                 }
+                ++count;
             }
             return 0;
         }
 
-        public long AmountOfWinners()
+        public long WinnerCount()
         {
-            long result = this._winners.Count();
+            long result = this._winners.Count;
+            return result;
+        }
+
+        public bool FirstWinner()
+        {
+            bool result = this.WinnerCount() > 0;
+            return result;
+        }
+
+        public long[] ReturnFirstWinner()
+        {
+            long[] result = {this._winners.First().winningNum, this._winners.First().winningLot};
+            return result;
+        }
+
+        public long[] ReturnLastWinner()
+        {
+            List<_field> winnerList = this._winners.ToList();
+            long[] result = {winnerList.Last().winningNum, winnerList.Last().winningLot};
             return result;
         }
     }

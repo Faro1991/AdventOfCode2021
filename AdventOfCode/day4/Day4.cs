@@ -23,6 +23,8 @@ namespace AdventOfCode
         public override long PartOne()
         {
             long result = 0;
+            long winningLot = 0;
+            long boardVal = 0;
             DrawLots();
 
             Board board = new Board();
@@ -30,15 +32,19 @@ namespace AdventOfCode
             
             foreach (string lot in this._lots)
             {
+                
                 long lotVal = Convert.ToInt64(lot);
                 board.MarkLot(lotVal);
-                long boardTest = board.CheckWin();
-                if (boardTest != 0)
+                board.CheckWin(lotVal);
+                if (board.FirstWinner())
                 {
-                    result = boardTest * lotVal;
                     break;
                 }
             }
+            long[] winningValues = board.ReturnFirstWinner();
+            boardVal = winningValues[0];
+            winningLot = winningValues[1];
+            result = boardVal * winningLot;
 
             return result;
         }
@@ -46,7 +52,8 @@ namespace AdventOfCode
         public override long PartTwo()
         {
             long result = 0;
-            long lastLength = 0;
+            long winningLot = 0;
+            long boardVal = 0;
 
             Board board = new Board();
             board.EnterFields(this.Items);
@@ -55,18 +62,12 @@ namespace AdventOfCode
             {
                 long lotVal = Convert.ToInt64(lot);
                 board.MarkLot(lotVal);
-                long boardTest = board.CheckWin();
-                long length = board.AmountOfWinners();
-                if (boardTest != 0)
-                {
-                    if (lastLength == length)
-                    {
-                        break;
-                    }
-                    result = boardTest * lotVal;
-                    lastLength = length;
-                }
+                long test = board.CheckWin(lotVal);
             }
+            long[] winningValues = board.ReturnLastWinner();
+            boardVal = winningValues[0];
+            winningLot = winningValues[1];
+            result = boardVal * winningLot;
 
             return result;
         }
