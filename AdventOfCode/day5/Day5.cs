@@ -62,7 +62,7 @@ namespace AdventOfCode
                 startingPoint[1] += stepValY;
             }
         }
-
+        [Benchmark]
         public override long PartOne()
         {
             long result = 0;
@@ -98,7 +98,7 @@ namespace AdventOfCode
 
             return result;
         }
-
+        [Benchmark]
         public override long PartTwo()
         {
             long result = 0;
