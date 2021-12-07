@@ -7,51 +7,32 @@ namespace AdventOfCode
 {
     public class Day6 : DayBase
     {
-        private List<_fish> _fishes = new List<_fish>();
+        private List<long> _fishNum = new List<long>();
         private List<long> _initialValues = new List<long>();
-        private struct _fish
-        {
-            long internalTimer;
-            public _fish(bool newborn = true) {internalTimer = 8;}
-            public _fish(long initialDays) {internalTimer = initialDays;}
-            public void DayTick()
-            {
-                --this.internalTimer;
-            }
-            public bool SpawnNewFish()
-            {
-                if (this.internalTimer == 0)
-                {
-                    this.internalTimer = 6;
-                    return true;
-                }
-                return false;
-            }
-        }
         public override long PartOne()
         {
             long result = 0;
-            Console.WriteLine(this.Items.ToString());
-            this._initialValues = this.Items.ToString().Split(",").Select(x => Convert.ToInt64(x)).ToList();
-            foreach (long days in this._initialValues)
-            {
-                _fishes.Add(new _fish(days));
-            }
-
+            this._initialValues = this.Items.SelectMany(x => x.Split(",")).ToList().ConvertAll<long>(x => !string.IsNullOrEmpty(x) ? Convert.ToInt64(x) : 0);
+            this._fishNum = this._initialValues.Select(x => x).ToList();
             for (int i = 0; i < 80; ++i)
             {
-                List<_fish> tmpList = _fishes;
-                foreach (_fish fish in tmpList)
+                long add = this._fishNum.Where(x => x == 0).Count();
+                this._fishNum = this._fishNum.Select(x => --x).ToList();
+                for (int j = 0; j < add; ++j)
                 {
-                    fish.DayTick();
-                    if (fish.SpawnNewFish())
-                    {
-                        this._fishes.Add(new _fish(true));
-                    }
+                    this._fishNum.Add(8);
                 }
+                this._fishNum = this._fishNum.Select(x =>
+                {
+                    if (x < 0)
+                    {
+                        return x + 7;
+                    }
+                    return x;
+                }).ToList();
             }
 
-            result = _fishes.Count;
+            result = this._fishNum.Count();
 
             return result;
         }
