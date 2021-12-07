@@ -39,7 +39,12 @@ namespace AdventOfCode
             day6.Input = @"day6/inputDay6.txt";
             day6.DayRun();
 
-            var summary = BenchmarkRunner.Run<Day5>();
+            var day7 = new Day7();
+            day7.Day = 7;
+            day7.Input = @"day7/inputDay7.txt";
+            day7.DayRun();
+
+            var summary = BenchmarkRunner.Run<Day7>();
 
         }
 
