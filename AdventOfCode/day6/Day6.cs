@@ -41,6 +41,7 @@ namespace AdventOfCode
             result = this._numberOfFish.Select(x => x).Sum();
             return result;
         }
+        [Benchmark]
         public override long PartOne()
         {
             long result = 0;
@@ -51,6 +52,7 @@ namespace AdventOfCode
 
             return result;
         }
+        [Benchmark]
         public override long PartTwo()
         {
             long result = 0;
