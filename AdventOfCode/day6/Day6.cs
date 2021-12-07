@@ -35,10 +35,11 @@ namespace AdventOfCode
         private long CalcBirths(int start, int end)
         {
             long result = 0;
+            long births = 0;
 
             for (int i = start; i < end; ++i)
             {
-                long births = this._numberOfFish[0];
+                births = this._numberOfFish[0];
                 this._numberOfFish[7] += births;
                 for (int newFish = 0; newFish < births; ++newFish)
                 {
@@ -46,13 +47,9 @@ namespace AdventOfCode
                 }
                 for (int key = 1; key <= 9; ++key)
                 {
-                    long currentNumberOfFish = this._numberOfFish[key];
-                    long newPos = key - 1;
-                    this._numberOfFish[newPos] = currentNumberOfFish;
+                    this._numberOfFish[key - 1] = this._numberOfFish[key];
                     this._numberOfFish[key] = 0;
-                }
-                List<long> test = this._numberOfFish.Select(x => x.Value).ToList();
-                
+                }               
             }
             result = this._numberOfFish.Values.Select(x => x).Sum();
             return result;
