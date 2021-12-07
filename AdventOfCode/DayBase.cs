@@ -45,8 +45,8 @@ namespace AdventOfCode
 
         }
 
-        public virtual void DayRun() {
-
+        public virtual void Setup()
+        {
             if (!System.IO.Directory.Exists("day" + this.Day)) {
 
                 System.IO.Directory.CreateDirectory("day" + this.Day);
@@ -61,11 +61,25 @@ namespace AdventOfCode
             
 
             LineReader Read = new LineReader();
-            ResultWriter Write = new ResultWriter();
 
             try {
                 string text = System.IO.File.ReadAllText(this.Input);
                 this.Items = Read.GatherLines(text);
+            }
+            catch (System.IO.FileNotFoundException e) {
+
+                Console.WriteLine("could not find file, skipping day " + Day);
+                Console.WriteLine(e);
+
+            }
+        }
+
+        public virtual void DayRun() {
+
+            this.Setup();
+            ResultWriter Write = new ResultWriter();
+
+            try {
 
                 long Result = PartOne();
                 long ResultPartTwo = PartTwo();
@@ -74,12 +88,6 @@ namespace AdventOfCode
                 Write.PartResults.Add("Part two", ResultPartTwo.ToString());
 
                 Write.WriteResults(Day);
-            }
-            catch (System.IO.FileNotFoundException e) {
-
-                Console.WriteLine("could not find file, skipping day " + Day);
-                Console.WriteLine(e);
-
             }
             catch (System.NotImplementedException e) {
 
