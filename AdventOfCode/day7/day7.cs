@@ -21,18 +21,18 @@ namespace AdventOfCode
         }
         private long ImprovedFuelUsageCalculation(List<long> positions)
         {
-            long average = Convert.ToInt64(Math.Round(positions.Average()));
+            long mean = Convert.ToInt64(Math.Round(positions.Average()));
             List<long> candidates = new List<long>();
-            for (long range = average - 10; range < average + 10; ++range)
+            for (long range = mean - 10; range < mean + 10; ++range)
             {
-            candidates.Add(positions.Select(x => Math.Abs(average - x)).SelectMany(x =>
+            candidates.Add(positions.Select(x => Math.Abs(range - x)).SelectMany(x =>
                 {
-                    List<long> result = new List<long>();
+                    List<long> tmpList = new List<long>();
                     for (int i = 0; i <= x; ++i)
                     {
-                        result.Add(i);
+                        tmpList.Add(i);
                     }
-                    return result;
+                    return tmpList;
                 }
             ).Sum());
             }
