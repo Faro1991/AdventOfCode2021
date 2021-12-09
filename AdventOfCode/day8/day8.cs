@@ -15,8 +15,9 @@ namespace AdventOfCode
         {
             if (this._inputStrings.Count == 0)
             {
-                this._inputStrings = this.Items.Select(x => x.Split("|").Where(x => !string.IsNullOrEmpty(x)).ToList()[0]).Select(x => x.Split(" ").Where(x => !string.IsNullOrEmpty(x)).ToList()).ToList();
-                this._digitStrings = this.Items.Select(x => x.Split("|").Where(x => !string.IsNullOrEmpty(x)).ToList()[1]).Select(x => x.Split(" ").Where(x => !string.IsNullOrEmpty(x)).ToList()).ToList();
+                List<List<string>> queryParts = this.Items.Select(x => x.Split("|").Where(x => !string.IsNullOrEmpty(x)).ToList()).ToList();
+                this._inputStrings = queryParts.Select(x => x).ToList().Select(x => x[0].Split(" ").Where(x => !string.IsNullOrEmpty(x)).ToList()).ToList();
+                this._digitStrings = queryParts.Select(x => x).ToList().Select(x => x[1].Split(" ").Where(x => !string.IsNullOrEmpty(x)).ToList()).ToList();
                 this._uniqueDigits = this._digitStrings.SelectMany(x => x).Select(x => x).Where(x => x.Length <= 4 || x.Length == 7).ToList();
             }
             if (this._originalMapping.Count == 0)
