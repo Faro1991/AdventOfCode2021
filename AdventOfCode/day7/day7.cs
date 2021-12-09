@@ -44,7 +44,10 @@ namespace AdventOfCode
         {
             this.Initialize();
             long result = 0;
-            result = this.CalculateLowestFuelUsage(this._horizontalCrabPositions);
+            if (this._horizontalCrabPositions.Count > 0)
+            {
+                result = this.CalculateLowestFuelUsage(this._horizontalCrabPositions);
+            }
 
             return result;
         }
@@ -52,7 +55,10 @@ namespace AdventOfCode
         public override long PartTwo()
         {
             long result = 0;
-            result = this.ImprovedFuelUsageCalculation(this._horizontalCrabPositions);
+            if (this._horizontalCrabPositions.Count > 0)
+            {
+                result = this.ImprovedFuelUsageCalculation(this._horizontalCrabPositions);
+            }
 
             return result;
         }
