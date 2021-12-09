@@ -135,7 +135,7 @@ namespace AdventOfCode
                 {
                     inputToFind += mappedValues.Where(x => x.Value == currentChar.ToString()).Select(x => x.Key).First().ToString();
                 }
-                List<char> tmp = inputToFind.ToCharArray().ToList();
+                List<char> tmp = inputToFind.ToList();
                 tmp.Sort();
                 inputToFind = new string(tmp.ToArray());
                 result += this._originalMapping[inputToFind];
