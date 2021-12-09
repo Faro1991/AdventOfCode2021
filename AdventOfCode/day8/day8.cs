@@ -13,21 +13,25 @@ namespace AdventOfCode
         private List<string> _uniqueDigits = new List<string>();
         private void Initialize()
         {
-            this._inputStrings = this.Items.Select(x => x.Split("|").Where(x => !string.IsNullOrEmpty(x)).ToList()[0]).Select(x => x.Split(" ").Where(x => !string.IsNullOrEmpty(x)).ToList()).ToList();
-            this._digitStrings = this.Items.Select(x => x.Split("|").Where(x => !string.IsNullOrEmpty(x)).ToList()[1]).Select(x => x.Split(" ").Where(x => !string.IsNullOrEmpty(x)).ToList()).ToList();
-            this._uniqueDigits = this._digitStrings.SelectMany(x => x).Select(x => x).Where(x => x.Length <= 4 || x.Length == 7).ToList();
-
-            this._originalMapping.Add("abcefg", "0");
-            this._originalMapping.Add("cf", "1");
-            this._originalMapping.Add("acdeg", "2");
-            this._originalMapping.Add("acdfg", "3");
-            this._originalMapping.Add("bcdf", "4");
-            this._originalMapping.Add("abdfg", "5");
-            this._originalMapping.Add("abdefg", "6");
-            this._originalMapping.Add("acf", "7");
-            this._originalMapping.Add("abcdefg", "8");
-            this._originalMapping.Add("abcdfg", "9");
-
+            if (this._inputStrings.Count == 0)
+            {
+                this._inputStrings = this.Items.Select(x => x.Split("|").Where(x => !string.IsNullOrEmpty(x)).ToList()[0]).Select(x => x.Split(" ").Where(x => !string.IsNullOrEmpty(x)).ToList()).ToList();
+                this._digitStrings = this.Items.Select(x => x.Split("|").Where(x => !string.IsNullOrEmpty(x)).ToList()[1]).Select(x => x.Split(" ").Where(x => !string.IsNullOrEmpty(x)).ToList()).ToList();
+                this._uniqueDigits = this._digitStrings.SelectMany(x => x).Select(x => x).Where(x => x.Length <= 4 || x.Length == 7).ToList();
+            }
+            if (this._originalMapping.Count == 0)
+            {
+                this._originalMapping.Add("abcefg", "0");
+                this._originalMapping.Add("cf", "1");
+                this._originalMapping.Add("acdeg", "2");
+                this._originalMapping.Add("acdfg", "3");
+                this._originalMapping.Add("bcdf", "4");
+                this._originalMapping.Add("abdfg", "5");
+                this._originalMapping.Add("abdefg", "6");
+                this._originalMapping.Add("acf", "7");
+                this._originalMapping.Add("abcdefg", "8");
+                this._originalMapping.Add("abcdfg", "9");
+            }
         }
 
         private Dictionary<string, long> CountUniqueOccurrences(List<string> input)
@@ -47,9 +51,9 @@ namespace AdventOfCode
         private List<string> DeduceOutput(List<string> input)
         {
             List<string> result = new List<string>();
-
             List<string> alreadyMapped = new List<string>();
 
+            // prepare necessary sets/strings
             string one = input.Where(x => x.Length == 2).Select(x => x).First().ToString();
             List<string> twoThreeFive = input.Where(x => x.Length == 5).Select(x => x).ToList();
             string four = input.Where(x => x.Length == 4).Select(x => x).First().ToString();
@@ -142,7 +146,10 @@ namespace AdventOfCode
         [Benchmark]
         public override long PartOne()
         {
-            this.Initialize();
+            if (this._uniqueDigits.Count == 0)
+            {
+                this.Initialize();
+            }
             long result  = 0;
             result = this._uniqueDigits.Count();
 
@@ -153,11 +160,14 @@ namespace AdventOfCode
         {
             long result  = 0;
             int pos = 0;
-            foreach (List<string> signals in this._inputStrings)
+            if (this._inputStrings.Count > 0)
             {
-                List<string> mappedOutput = this.DeduceOutput(signals);
-                result += Convert.ToInt64(this.ReturnDigitValue(mappedOutput, pos));
-                ++pos;
+                foreach (List<string> signals in this._inputStrings)
+                {
+                    List<string> mappedOutput = this.DeduceOutput(signals);
+                    result += Convert.ToInt64(this.ReturnDigitValue(mappedOutput, pos));
+                    ++pos;
+                }
             }
 
             return result;
