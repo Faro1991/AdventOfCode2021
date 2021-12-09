@@ -9,7 +9,7 @@ namespace AdventOfCode
 
         static void Main() {
 
-            var day1 = new Day1();
+            /* var day1 = new Day1();
             day1.Day = 1;
             day1.Input = @"day1/inputDay1.txt";
             day1.DayRun();
@@ -42,9 +42,14 @@ namespace AdventOfCode
             var day7 = new Day7();
             day7.Day = 7;
             day7.Input = @"day7/inputDay7.txt";
-            day7.DayRun();
+            day7.DayRun(); */
 
-            var summary = BenchmarkRunner.Run<Day7>();
+            var day8 = new Day8();
+            day8.Day = 8;
+            day8.Input = @"day8/inputDay8.txt";
+            day8.DayRun();
+
+            var summary = BenchmarkRunner.Run<Day8>();
 
         }
 
