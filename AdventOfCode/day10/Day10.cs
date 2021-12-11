@@ -125,7 +125,10 @@ namespace AdventOfCode
             List<long> completionResults = completingMatches.Select(x => this.CompletingMatchesSum(x)).ToList();
             completionResults.Sort();
 
-            result = completionResults[completionResults.Count / 2];
+            if (completionResults.Count > 0)
+            {
+                result = completionResults[completionResults.Count / 2];
+            }
 
             return result;
         }
