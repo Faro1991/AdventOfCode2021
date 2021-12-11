@@ -62,6 +62,7 @@ namespace AdventOfCode
             }
             return result;
         }
+        [Benchmark]
         public override long PartOne()
         {
             if (this._closerValues.Count == 0)
@@ -98,6 +99,7 @@ namespace AdventOfCode
 
             return result;
         }
+        [Benchmark]
         public override long PartTwo()
         {
             long result = 0;
