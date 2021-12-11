@@ -47,14 +47,19 @@ namespace AdventOfCode
             var day8 = new Day8();
             day8.Day = 8;
             day8.Input = @"day8/inputDay8.txt";
-            day8.DayRun();*/
+            day8.DayRun();
 
             var day9 = new Day9();
             day9.Day = 9;
             day9.Input = @"day9/inputDay9.txt";
-            day9.DayRun();
+            day9.DayRun();*/
 
-            var summary = BenchmarkRunner.Run<Day9>();
+            var day10 = new Day10();
+            day10.Day = 10;
+            day10.Input = @"day10/inputDay10.txt";
+            day10.DayRun();
+
+            var summary = BenchmarkRunner.Run<Day10>();
 
         }
 
