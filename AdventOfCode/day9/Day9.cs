@@ -10,19 +10,13 @@ namespace AdventOfCode
         List<List<Point>> _points = new List<List<Point>>();
         List<string> _basins = new List<string>();
         Dictionary<long, string> _directions = new Dictionary<long, string>();
+        List<string> _alreadyMarked = new List<string>();
         private struct Point
         {
             public long val;
             public long[] neighbours;
             public bool isLowPoint;
-            public bool alreadyMarked;
-
-            public void setMarked()
-            {
-                this.alreadyMarked = true;
-            }
-
-            public Point(long[] values) {this.neighbours = values[1..]; this.isLowPoint = values[1..].Min() > values[0]; this.val = values[0]; this.alreadyMarked = false;}
+            public Point(long[] values) {this.neighbours = values[1..]; this.isLowPoint = values[1..].Min() > values[0]; this.val = values[0];}
         }
         private long[] GetNeighbours(int i, int j, List<string> input)
         {
@@ -64,6 +58,7 @@ namespace AdventOfCode
             string result = "";
             int x = coords[0];
             int y = coords[1];
+            string coordString = $"{x}/{y}";
 
             long[] neighbours = input[x][y].neighbours;
             long val = input[x][y].val;
@@ -79,10 +74,11 @@ namespace AdventOfCode
                     result += BuildBasin(input, nextHop);
                 }
             }
-            if (!input[x][y].alreadyMarked)
+
+            if (!this._alreadyMarked.Contains(coordString))
             {
                 result += val.ToString();
-                input[x][y].setMarked();
+                this._alreadyMarked.Add(coordString);
             }
 
             return result;
@@ -118,20 +114,31 @@ namespace AdventOfCode
             this._directions.Add(2, "-1/0");
             this._directions.Add(3, "1/0");
         }
+        [Benchmark]
         public override long PartOne()
         {
-            this.Initialize();
+            if (this._directions.Count == 0)
+            {
+                this.Initialize();
+            }
             long result = 0;
 
-            this.ScanForPoints(this.Items);
+            if (this._points.Count == 0)
+            {
+                this.ScanForPoints(this.Items);
+            }
             result = this._points.SelectMany(x => x).Where(x => x.isLowPoint).Select(x => x.val + 1).Sum();
 
             return result;
         }
+        [Benchmark]
         public override long PartTwo()
         {
             long result = 0;
-            this.ScanForBasinStarts(this._points);
+            if (this._basins.Count == 0)
+            {
+                this.ScanForBasinStarts(this._points);
+            }
             List<int> basinSizes= this._basins.Select(x => x.Length).ToList();
             basinSizes.Sort();
 
