@@ -68,3 +68,15 @@ AMD FX(tm)-8300, 1 CPU, 8 logical and 4 physical cores
 |-------- |---------:|--------:|--------:|
 | PartOne | 293.9 ns | 2.21 ns | 2.07 ns |
 | PartTwo | 210.6 ns | 2.24 ns | 1.87 ns |
+
+### Day 10
+|  Method |     Mean |   Error |  StdDev |
+|-------- |---------:|--------:|--------:|
+| PartOne | 793.1 ns | 5.20 ns | 4.61 ns |
+| PartTwo | 266.8 ns | 1.76 ns | 1.38 ns |
+
+### Day 11
+|  Method |      Mean |     Error |    StdDev |
+|-------- |----------:|----------:|----------:|
+| PartOne | 52.727 us | 0.7806 us | 0.6919 us |
+| PartTwo |  1.308 us | 0.0039 us | 0.0036 us |
